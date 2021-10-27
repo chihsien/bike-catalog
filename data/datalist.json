@@ -1,0 +1,48 @@
+[
+  {
+    "name": "光陽",
+    "modellist": [
+      {
+        "name": "AIR",
+        "booklist": [
+          { "name": "AIR150Fi維修手冊.pdf" }
+        ]
+      },
+      {
+        "name": "GP",
+        "booklist": [
+          { "name": "GP 125 (SJ25KA).pdf" },
+          { "name": "GP 125-FI (SJ25KB).pdf" }
+        ]
+      },
+      {
+        "name": "G5"
+      }
+    ]
+  },
+  {
+    "name": "三陽",
+    "modellist": [
+      {
+        "name": "金旺",
+        "booklist": [
+          { "name": "金旺90(K9MR)零件目錄.pdf" },
+          { "name": "金旺100(MB10A1)零件目錄.pdf" }
+        ]
+      },
+      {
+        "name": "野狼傳奇",
+        "booklist": [
+          { "name": "野狼125(125M-E)系列零件目錄.pdf" },
+          { "name": "傳奇野狼(PA12A)系列零件目錄.pdf" }
+        ]
+      },
+      {
+        "name": "迪爵",
+        "booklist": [
+          { "name": "迪爵test.pdf" }
+        ]
+      }
+    ]
+  }
+]

@@ -1,1 +1,166 @@
-hello world
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <script src="asset/js/vue.2.6.14.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+</head>
+<body>
+
+    <div id="app">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col" style="line-height:80px;font-size:30px;font-weight:bold">
+                    機車零件手冊
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2" style="font-size:28px">車廠 : </div>
+                <div class="col">
+                    <select-compontent v-model="factoryIdx" :options="downloadlist"></select-compontent>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2" style="font-size:28px">車種 : </div>
+                <div class="col">
+                    <select-compontent v-model="modelIdx" :options="areas"></select-compontent>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2" style="font-size:28px"></div>
+                <div class="col">
+                    <select-compontent v-model="bikeIdx" :options="bikes"></select-compontent>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div style="line-height:20px"><p></p></div>
+            </div>
+
+            <div class="row">
+                <div class="col-2" style="font-size:28px"></div>
+                <div class="col">
+                    <button @click="download" class="btn btn-primary">下載</button>
+                </div>
+            </div>
+        </div>
+
+        <!--{{downloadlist[factoryIdx].name}}
+        {{downloadlist[factoryIdx].modellist[modelIdx].name}}
+        {{downloadlist[factoryIdx].modellist[modelIdx].booklist[bikeIdx].name}}-->
+
+    </div>
+</body>
+</html>
+
+<script>
+
+Vue.component('select-compontent',{
+  props: ['options', 'value'],
+  template: `
+<select v-model="index" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+    <option v-for="(item,i) in options" :value="i">
+        {{item.name}}
+    </option>
+</select>
+  `,
+  computed:{
+    index:{
+      get(){
+        return this.value
+      },
+      set(index){
+        this.$emit('input', index);
+      }
+    }
+  }
+});
+
+new Vue({
+  el: '#app',
+//  template: `
+//<div>
+//    <select-compontent v-model="factoryIdx" :options="cities"></select-compontent>
+//    <select-compontent v-model="modelIdx" :options="areas"></select-compontent>
+//    <p>縣市：{{factoryIdx}} 區域：{{modelIdx}} 區碼{{zip}}</p>
+//</div>
+//  `,
+  data:{
+      factoryIdx: 0,
+      modelIdx: 0,
+      bikeIdx: 0,
+      downloadlist : []
+
+  },
+  watch:{
+      factoryIdx(){
+          this.modelIdx = 0
+      },
+      modelIdx() {
+          this.bikeIdx = 0
+      }
+
+  },
+    created() {
+        axios.get('data/datalist.json').then((r) => {
+            console.log(r.data[0].factory)
+            this.downloadlist = r.data
+        })
+  },
+  computed:{
+    areas() {
+        //console.log(this.factoryIdx)
+        //console.log("area()=" + this.downloadlist[this.factoryIdx].modellist)
+        //console.log("area2()=" + this.cities[this.factoryIdx].areas)
+        //return this.cities[this.factoryIdx].areas
+        return this.downloadlist[this.factoryIdx].modellist
+    },
+      bikes() {
+          //console.log('factoryIdx=' + this.factoryIdx)
+          //console.log('modelIdx=' + this.modelIdx)
+          //console.log('bikeIdx=' + this.bikeIdx)
+          return this.downloadlist[this.factoryIdx].modellist[this.modelIdx].booklist
+
+      }
+    },
+    methods: {
+        download() {
+            //alert('download')
+
+            let fn = this.downloadlist[this.factoryIdx].modellist[this.modelIdx].booklist[this.bikeIdx].name
+            let resource = this.downloadlist[this.factoryIdx].name + '/' 
+                    + this.downloadlist[this.factoryIdx].modellist[this.modelIdx].name + '/' + fn               
+
+            axios({
+                url: 'https://localhost:44366/catalog/' + resource,
+                method: 'GET',
+                responseType: 'blob', // important
+            }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', fn);
+                document.body.appendChild(link);
+                link.click();
+            });
+        }
+    }
+});
+
+
+
+</script>
