@@ -20,29 +20,29 @@
         <div class="container">
 
             <div class="row">
-                <div class="col" style="line-height:80px;font-size:30px;font-weight:bold">
+                <div class="col" style="line-height: 80px; font-size: 80px; font-weight: bold; padding-top: 50px; padding-bottom: 50px; background-color:aquamarine ">
                     機車零件手冊
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2" style="font-size:28px">車廠 : </div>
+            <div class="row" style="padding-top:50px;padding-bottom:40px">
+                <div class="col-2" style="font-size:60px">車廠 : </div>
                 <div class="col">
-                    <select-compontent v-model="factoryIdx" :options="downloadlist"></select-compontent>
+                    <select-compontent v-model="factoryIdx" :options="downloadlist" style="font-size:50px"></select-compontent>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-2" style="font-size:28px">車種 : </div>
+                <div class="col-2" style="font-size:60px">車種 : </div>
                 <div class="col">
-                    <select-compontent v-model="modelIdx" :options="areas"></select-compontent>
+                    <select-compontent v-model="modelIdx" :options="areas" style="font-size:50px"></select-compontent>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-2" style="font-size:28px"></div>
                 <div class="col">
-                    <select-compontent v-model="bikeIdx" :options="bikes"></select-compontent>
+                    <select-compontent v-model="bikeIdx" :options="bikes" style="font-size:50px"></select-compontent>
                 </div>
             </div>
 
@@ -54,7 +54,7 @@
             <div class="row">
                 <div class="col-2" style="font-size:28px"></div>
                 <div class="col">
-                    <button @click="download" class="btn btn-primary">下載</button>
+                    <button @click="download" class="btn btn-primary btn-lg">下載</button>
                 </div>
             </div>
         </div>
